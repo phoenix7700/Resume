@@ -1,7 +1,7 @@
 
 var d = new Date();
 var sDate;
-switch (d.getMonth()){
+switch (d.getMonth()) {
 	case 0:
 		sDate = "Jan ";
 		break;
@@ -43,6 +43,8 @@ sDate = sDate + d.getFullYear();
 
 var aboutTimer;
 var aboutTimerIsSet = false;
+var skillsTimer;
+var skillsTimerIsSet = false;
 var pElement;
 var tElement;
 var animation;
@@ -52,6 +54,9 @@ function displayOnMouseOver (element) {
 	var p;
 	var t;
 	switch (id) {
+		case "hSummary":
+			document.getElementById("pSummary").style.display="block";
+			break;
 		case "hEdu":
 			document.getElementById("pEdu").style.display="block";
 			p = "pEdu";
@@ -65,11 +70,14 @@ function displayOnMouseOver (element) {
 			document.getElementById("pSkills").style.display="block";
 			p = "pSkills";
 			t = "tSkills";
+			if (skillsTimerIsSet === true) {
+				return;
+			}
 			break;
 		case "hAbout":
 			document.getElementById("pAbout").style.display="block";
 			p = "pAbout";
-			if (aboutTimerIsSet == true){
+			if (aboutTimerIsSet === true){
 				return;
 			}
 			break;
@@ -77,6 +85,7 @@ function displayOnMouseOver (element) {
 			document.getElementById("pRef").style.display="block";
 			p = "pRef";
 			break;
+		
 	}
 	pElement = document.getElementById(p);
 	tElement = document.getElementById(t);
@@ -88,7 +97,7 @@ function displayOnMouseOver (element) {
 	animation = setInterval(animateText, 35);
 }
 function animateText () {
-	if (pElement.style.fontSize == "18px") {
+	if (pElement.style.fontSize === "18px") {
 		window.clearInterval (animation);
 	} else {
 		size += 1;
@@ -108,7 +117,11 @@ function displayOnMouseOut (element) {
 			document.getElementById("pExp").style.display="none";
 			break;
 		case "hSkills":
-			document.getElementById("pSkills").style.display="none";
+			//document.getElementById("pSkills").style.display="none";
+			if (skillsTimerIsSet == false) {
+				skillsTimer = setTimeout (skillsTimerFunc,3000);
+				skillsTimerIsSet = true;
+			}
 			break;
 		case "hAbout":
 			if (aboutTimerIsSet == false) {
@@ -120,6 +133,9 @@ function displayOnMouseOut (element) {
 		case "hRef":
 			document.getElementById("pRef").style.display="none";
 			break;
+		case "hSummary":
+			document.getElementById("pSummary").style.display="none";
+			break;
 	}
 }
 function aboutTimerFunc() { 
@@ -127,3 +143,10 @@ function aboutTimerFunc() {
 	aboutTimerIsSet = false;
 	clearTimeout(aboutTimer);
 }
+
+function skillsTimerFunc() {
+	document.getElementById("pSkills").style.display="none";
+	skillsTimerIsSet = false;
+	clearTimeout(skillsTimer);
+}
+
